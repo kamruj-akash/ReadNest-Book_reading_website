@@ -1,3 +1,4 @@
+import axios from "axios";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
         index: true,
 
         Component: Home,
-        loader: () => fetch("booksData.json"),
+        loader: () => axios("booksData.json"),
         // <PropagateLoader size={15} />
       },
       {

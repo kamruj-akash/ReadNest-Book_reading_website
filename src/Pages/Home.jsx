@@ -4,7 +4,7 @@ import Books from "../Components/Books";
 import Container from "../Components/Container";
 
 const Home = () => {
-  const booksData = useLoaderData();
+  const booksData = useLoaderData().data;
   return (
     <Container>
       <div className="flex justify-around py-20">
