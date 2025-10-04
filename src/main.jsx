@@ -6,6 +6,7 @@ import ErrorPage from "./Components/ErrorPage";
 import "./index.css";
 import Dashboard from "./Layouts/Dashboard";
 import RootLayout from "./Layouts/RootLayout";
+import BookDetails from "./Pages/BookDetails";
 import Home from "./Pages/Home";
 import ListedBooks from "./Pages/ListedBooks";
 import PageToRead from "./Pages/PageToRead";
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
         index: true,
 
         Component: Home,
-        loader: () => axios("booksData.json"),
+        loader: () => axios("/booksData.json"),
         // <PropagateLoader size={15} />
       },
       {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
       {
         path: "/page-to-read",
         Component: PageToRead,
+      },
+      {
+        path: "/book-details/:id",
+        loader: ({ params }) => axios("/booksData.json", params),
+        Component: BookDetails,
       },
     ],
   },

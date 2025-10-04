@@ -4,7 +4,8 @@ import Books from "../Components/Books";
 import Container from "../Components/Container";
 
 const Home = () => {
-  const booksData = useLoaderData().data;
+  const booksD = useLoaderData([]);
+  const booksData = booksD.data;
   return (
     <Container>
       <div className="flex justify-around py-20">
@@ -29,7 +30,7 @@ const Home = () => {
         </div>
       </div>
       <div className="grid grid-cols-5 gap-5">
-        {booksData.map((book) => (
+        {booksData?.map((book) => (
           <Books key={book.bookId} book={book}></Books>
         ))}
       </div>

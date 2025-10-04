@@ -5,7 +5,6 @@ import Navbar from "../Components/Navbar";
 
 const RootLayout = () => {
   const navigation = useNavigation();
-  console.log(navigation.state);
 
   return (
     <>

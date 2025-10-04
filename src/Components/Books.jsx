@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 
 const Books = ({ book }) => {
-  const { bookName, author, rating, category, image } = book;
+  const { bookName, author, rating, category, image, bookId } = book;
   return (
     <div className="rounded-md shadow-md p-5">
       <div className="flex justify-between items-center text-center rounded-md h-80 overflow-hidden">
@@ -14,7 +14,10 @@ const Books = ({ book }) => {
         <p>{rating}</p>
       </div>
       <div className="flex justify-center mt-5">
-        <NavLink className="btn  bg-teal-600 text-white font-semibold hover:bg-teal-700">
+        <NavLink
+          to={`/book-details/${bookId}`}
+          className="btn  bg-teal-600 text-white font-semibold hover:bg-teal-700"
+        >
           Read Book
         </NavLink>
       </div>
