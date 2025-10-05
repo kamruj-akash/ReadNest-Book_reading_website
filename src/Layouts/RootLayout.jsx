@@ -7,18 +7,21 @@ const RootLayout = () => {
   const navigation = useNavigation();
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      {navigation.state == "Loading" ? (
-        <Loader />
-      ) : (
-        <main className="min-h-[calc(100vh-300px)]">
+
+      <div className="flex-1">
+        {navigation.state == "loading" ? (
+          <Loader />
+        ) : (
+          // <main className="min-h-[calc(100vh-300px)]">
+          // </main>
           <Outlet />
-        </main>
-      )}
+        )}
+      </div>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

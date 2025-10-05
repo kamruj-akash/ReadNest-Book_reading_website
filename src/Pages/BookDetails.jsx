@@ -1,8 +1,9 @@
 import { FaStar } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 
-import { NavLink, useLoaderData, useNavigate, useParams } from "react-router";
+import { useLoaderData, useNavigate, useParams } from "react-router";
 import Container from "../Components/Container";
+import { saveToDB } from "../Utilities/AddToBD";
 
 const BookDetails = () => {
   let navigate = useNavigate();
@@ -10,7 +11,12 @@ const BookDetails = () => {
   const booksData = useLoaderData().data;
   const book = booksData.find((book) => book.bookId == paramId);
 
-  const { bookName, author, image, review, rating, publisher, tags } = book;
+  const addToDbHandler = (id) => {
+    saveToDB(id);
+  };
+
+  const { bookId, bookName, author, image, review, rating, publisher, tags } =
+    book;
 
   return (
     <Container>
@@ -83,12 +89,15 @@ const BookDetails = () => {
           {/* Price and Buttons */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4">
             <div className="flex gap-3">
-              <NavLink className="btn  bg-teal-600 text-white font-semibold hover:bg-teal-700">
-                Read Now
-              </NavLink>
-              <NavLink className="btn  text-teal-600 bg-transparent border-1 font-semibold hover:bg-teal-700 hover:text-white">
+              <button
+                onClick={() => addToDbHandler(bookId)}
+                className="btn  bg-teal-600 text-white font-semibold hover:bg-teal-700"
+              >
+                Mark as Read
+              </button>
+              <button className="btn  text-teal-600 bg-transparent border-1 font-semibold hover:bg-teal-700 hover:text-white">
                 Add to Wishlist
-              </NavLink>
+              </button>
             </div>
           </div>
         </div>
