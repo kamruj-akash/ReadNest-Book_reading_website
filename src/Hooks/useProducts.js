@@ -15,6 +15,5 @@ export const useProducts = () => {
       .catch((err) => setError(err))
       .finally(setLoading(false));
   }, []);
-
   return [products, loading, error];
 };
