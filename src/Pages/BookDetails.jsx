@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import Container from "../Components/Container";
 import Loader from "../Components/Loader";
 import { useProducts } from "../Hooks/useProducts";
-import { saveToDB } from "../Utilities/AddToBD";
+import { getFromDB, saveToDB } from "../Utilities/AddToBD";
 
 const BookDetails = () => {
   const [products, loading, error] = useProducts();
@@ -17,12 +17,22 @@ const BookDetails = () => {
     book || {};
 
   const addToDbHandler = (id) => {
-    saveToDB(id);
-    Swal.fire({
-      title: "Added to ReadList!",
-      icon: "success",
-      draggable: true,
-    });
+    const existList = getFromDB();
+
+    if (existList.includes(id)) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "The Book Already in Read List!",
+      });
+    } else {
+      saveToDB(id);
+      Swal.fire({
+        title: "Added to ReadList!",
+        icon: "success",
+        draggable: true,
+      });
+    }
   };
 
   return (
