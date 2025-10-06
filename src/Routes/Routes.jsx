@@ -1,5 +1,5 @@
-import axios from "axios";
 import { createBrowserRouter } from "react-router";
+import Loader from "../Components/Loader";
 import Dashboard from "../Layouts/Dashboard";
 import RootLayout from "../Layouts/RootLayout";
 import BookDetails from "../Pages/BookDetails";
@@ -13,16 +13,17 @@ export const router = createBrowserRouter([
     path: "/",
     Component: RootLayout,
     ErrorBoundary: <ErrorPage />,
+    hydrateFallbackElement: <Loader />,
     children: [
       {
         index: true,
         Component: Home,
-        loader: () => axios("/booksData.json"),
+        // loader: () => axios("/booksData.json"),
         // <PropagateLoader size={15} />
       },
       {
         path: "/listed-book",
-        loader: () => axios("/booksData.json"),
+        // loader: () => axios("/booksData.json"),
         Component: ListedBooks,
       },
       {
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/book-details/:id",
-        loader: ({ params }) => axios("/booksData.json", params),
+        // loader: ({ params }) => axios("/booksData.json", params),
         Component: BookDetails,
       },
     ],

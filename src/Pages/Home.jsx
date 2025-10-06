@@ -1,11 +1,17 @@
-import { useLoaderData } from "react-router";
 import bookImage from "../assets/books.jpg";
 import Books from "../Components/Books";
 import Container from "../Components/Container";
+import Loader from "../Components/Loader";
+import NoDataFound from "../Components/NoDataFound";
+import { useProducts } from "../Hooks/useProducts";
 
 const Home = () => {
-  const booksD = useLoaderData([]);
-  const booksData = booksD.data;
+  const [products, loading, error] = useProducts();
+
+  // if (loading) return <Loader />;
+  // if (error) return <h1>there is a error</h1>;
+  // if (!products) return <div>Book not found</div>;
+
   return (
     <Container>
       <div className="flex justify-around py-20">
@@ -29,11 +35,17 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-5 gap-5">
-        {booksData?.map((book) => (
-          <Books key={book.bookId} book={book}></Books>
-        ))}
-      </div>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <NoDataFound />
+      ) : (
+        <div className="grid grid-cols-5 gap-5">
+          {products?.map((book) => (
+            <Books key={book.bookId} book={book}></Books>
+          ))}
+        </div>
+      )}
     </Container>
   );
 };

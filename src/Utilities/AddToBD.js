@@ -1,6 +1,5 @@
 const getFromDB = () => {
   const storedItem = localStorage.getItem("bookId");
-
   if (storedItem) {
     return JSON.parse(storedItem);
   } else {
@@ -10,17 +9,18 @@ const getFromDB = () => {
 
 const saveToDB = (id) => {
   const storedItem = getFromDB();
-
-  //   if (storedItem.includes(id)) {
   if (storedItem.includes(id)) {
-    // alert("Already Added");
     return;
   } else {
     storedItem.push(id);
-    // const newItem = [...storedItem, id];
-    // console.log(newItem);
     localStorage.setItem("bookId", JSON.stringify(storedItem));
   }
 };
 
-export { getFromDB, saveToDB };
+const removeFromDB = (id) => {
+  const storedItem = getFromDB();
+  const resItem = storedItem.filter((item) => item != id);
+  localStorage.setItem("bookId", JSON.stringify(resItem));
+};
+
+export { getFromDB, removeFromDB, saveToDB };

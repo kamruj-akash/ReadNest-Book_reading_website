@@ -1,22 +1,25 @@
-import { FaStar } from "react-icons/fa";
-import { IoIosArrowBack } from "react-icons/io";
-
-import { useLoaderData, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Container from "../Components/Container";
-import { saveToDB } from "../Utilities/AddToBD";
+import Loader from "../Components/Loader";
+import { useProducts } from "../Hooks/useProducts";
 
 const BookDetails = () => {
-  let navigate = useNavigate();
-  const paramId = useParams().id;
-  const booksData = useLoaderData().data;
-  const book = booksData.find((book) => book.bookId == paramId);
+  const [products, loading, error] = useProducts();
 
-  const addToDbHandler = (id) => {
-    saveToDB(id);
-  };
+  let navigate = useNavigate();
+  const paramId = Number(useParams().id);
+
+  if (loading) return <Loader />;
+  if (error) return <h1>there is a error</h1>;
+  const book = products.find((book) => book.bookId === paramId);
+  if (!book) return <div>Book not found</div>;
+
+  // const booksData = useLoaderData().data;
 
   const { bookId, bookName, author, image, review, rating, publisher, tags } =
     book;
+
+  console.log(bookId, bookName, author, image, review, rating, publisher, tags);
 
   return (
     <Container>
@@ -28,7 +31,7 @@ const BookDetails = () => {
           <IoIosArrowBack />
           Back
         </button>
-        {/* Book Cover */}
+
         <div className="flex-shrink-0 w-full md:w-1/3">
           <img
             src={image}
@@ -37,18 +40,14 @@ const BookDetails = () => {
           />
         </div>
 
-        {/* Book Info */}
         <div className="flex-1 space-y-6">
-          {/* Title & Author */}
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{bookName}</h1>
             <h2 className="text-lg text-gray-600">by {author}</h2>
           </div>
 
-          {/* Description */}
           <p className="text-gray-700 leading-relaxed">{review}</p>
 
-          {/* Tags */}
           <div className="flex gap-2">
             {tags.map((tag) => (
               <span
@@ -60,7 +59,6 @@ const BookDetails = () => {
             ))}
           </div>
 
-          {/* Publisher and Language */}
           <div className="text-sm text-gray-500 space-y-1">
             <p>
               <strong>Publisher:</strong> {publisher}
@@ -70,7 +68,6 @@ const BookDetails = () => {
             </p>
           </div>
 
-          {/* Ratings */}
           <div>
             <div className="flex items-center gap-3">
               <span className="text-3xl font-semibold">{rating}</span>
@@ -86,11 +83,10 @@ const BookDetails = () => {
             </div>
           </div>
 
-          {/* Price and Buttons */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4">
             <div className="flex gap-3">
               <button
-                onClick={() => addToDbHandler(bookId)}
+                // onClick={() => addToDbHandler(bookId)}
                 className="btn  bg-teal-600 text-white font-semibold hover:bg-teal-700"
               >
                 Mark as Read
@@ -102,6 +98,7 @@ const BookDetails = () => {
           </div>
         </div>
       </div>
+      <h1>okk</h1>
     </Container>
   );
 };

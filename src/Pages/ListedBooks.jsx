@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router";
 import Container from "../Components/Container";
+import Loader from "../Components/Loader";
+import NoDataFound from "../Components/NoDataFound";
 import ReadListCard from "../Components/ReadListCard";
+import { useProducts } from "../Hooks/useProducts";
 import { getFromDB } from "../Utilities/AddToBD";
 
 const ListedBooks = () => {
-  const { data: booksData } = useLoaderData();
+  const [products, loading, error] = useProducts();
   const [readBook, setReadBook] = useState([]);
-
   useEffect(() => {
     const dbBooks = getFromDB();
-    const filterBook = booksData.filter((item) =>
-      dbBooks.includes(item.bookId)
-    );
+    const filterBook = products.filter((item) => dbBooks.includes(item.bookId));
     setReadBook(filterBook);
-  }, [booksData]);
+  }, [products]);
 
   return (
     <Container>
@@ -29,11 +28,23 @@ const ListedBooks = () => {
           aria-label="Read List"
           defaultChecked
         />
-        <div className="tab-content bg-base-100 border-base-300 p-6 ">
-          {readBook.map((book) => (
-            <ReadListCard key={book.bookId} book={book} />
-          ))}
-        </div>
+
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <NoDataFound />
+        ) : (
+          <div className="tab-content bg-base-100 border-base-300 p-6 ">
+            {readBook.map((book) => (
+              <ReadListCard
+                key={book.bookId}
+                book={book}
+                readBook={readBook}
+                setReadBook={setReadBook}
+              />
+            ))}
+          </div>
+        )}
 
         <input
           type="radio"
